@@ -1,109 +1,196 @@
-# Collins Clothing Website
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collins Clothing | Steady Grinding Streetwear</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo" style="display:flex;align-items:center;gap:10px;">
+        <img src="logo.png" alt="Steady Grinding" style="height:42px;width:auto;">
+        <span>Collins <span style="color:#e11d48;">Clothing</span></span>
+      </a>
+      <nav class="nav">
+        <a href="index.html">Shop</a>
+        <a href="#products">New Drops</a>
+        <a href="#contact">Contact</a>
+        <a href="dashboard.html">CEO</a>
+      </nav>
+      <div class="header-actions">
+        <button class="cart-btn" onclick="openCart()" aria-label="Cart">
+          🛒
+          <span class="cart-count" style="display:none;">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
 
-Modern streetwear store for **Collins Clothing**.
+  <!-- Hero -->
+  <section class="hero">
+    <img src="logo.png" alt="Steady Grinding" style="height:90px;width:auto;margin-bottom:18px;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.4));">
+    <h1>Collins Clothing</h1>
+    <p>Streetwear with purpose. Bold graphics. Real energy.<br>One day. One step. Everyday.</p>
+  </section>
 
-## Features
+  <!-- Products -->
+  <section class="products-section" id="products">
+    <div class="section-header">
+      <h2>All Products</h2>
+      <div class="filter-tabs">
+        <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+        <button class="filter-btn" onclick="setFilter('available', this)">In Stock</button>
+        <button class="filter-btn" onclick="setFilter('sold', this)">Sold Out</button>
+      </div>
+    </div>
+    <div class="product-grid" id="product-grid"></div>
+  </section>
 
-- Clean product grid (IShowSpeed-style layout)
-- 14 graphic tees @ **₦15,000** each
-- Shopping cart + quantity control
-- Full checkout form (name, phone, address)
-- Bank transfer payment details (PiggyVest)
-- WhatsApp floating button + contact section
-- CEO Dashboard (password protected)
-  - Edit product names & prices
-  - Mark Available / Sold Out
-  - View all customer orders
-- Works offline with localStorage
-- Ready for Supabase (cross-device sync)
+  <!-- Contact -->
+  <section class="contact-section" id="contact">
+    <div class="contact-inner">
+      <div class="contact-card">
+        <h3>Contact & Location</h3>
+        <div class="contact-item">
+          <span>📍</span>
+          <div>Lagos Island, Ikate, Lekki, Lagos</div>
+        </div>
+        <div class="contact-item">
+          <span>📞</span>
+          <div><a href="tel:09047101249">0904 710 1249</a></div>
+        </div>
+        <div class="contact-item">
+          <span>💬</span>
+          <div><a href="https://wa.me/2349047101249" target="_blank">WhatsApp: 0904 710 1249</a></div>
+        </div>
+        <div class="contact-item">
+          <span>✉️</span>
+          <div><a href="mailto:ajigocollins@gmail.com">ajigocollins@gmail.com</a></div>
+        </div>
+      </div>
+      <div class="contact-card">
+        <h3>Payment Details</h3>
+        <div class="payment-box" style="margin:0;">
+          <div class="payment-row"><span>Bank</span> <strong>PiggyVest</strong></div>
+          <div class="payment-row"><span>Account Name</span> <strong>Ajigo Collins Ojenya</strong></div>
+          <div class="payment-row"><span>Account Number</span> <strong>9043728140</strong></div>
+        </div>
+        <p style="margin-top:14px;font-size:0.9rem;color:#666;">
+          After placing your order, transfer the exact amount and send payment proof via WhatsApp so we can process and deliver your order.
+        </p>
+      </div>
+    </div>
+  </section>
 
-## Store Info
+  <!-- Footer -->
+  <footer class="footer">
+    <img src="logo.png" alt="Steady Grinding" style="height:50px;width:auto;margin-bottom:12px;opacity:0.9;">
+    <p>&copy; 2026 Collins Clothing. All rights reserved.</p>
+    <p style="margin-top:6px;font-size:0.9rem;opacity:0.8;">One day. One step. Everyday.</p>
+    <div class="social">
+      <a href="https://wa.me/2349047101249" target="_blank">WhatsApp</a>
+      <a href="mailto:ajigocollins@gmail.com">Email</a>
+      <a href="tel:09047101249">Call</a>
+    </div>
+    <p style="margin-top:8px;font-size:0.9rem;">Lagos Island • Ikate • Lekki</p>
+  </footer>
 
-| Item              | Details                          |
-|-------------------|----------------------------------|
-| Address           | Lagos Island, Ikate, Lekki       |
-| Phone / WhatsApp  | 0904 710 1249                    |
-| Email             | ajigocollins@gmail.com           |
-| Bank              | PiggyVest                        |
-| Account Name      | Ajigo Collins Ojenya             |
-| Account Number    | 9043728140                       |
+  <!-- Cart Overlay -->
+  <div class="cart-overlay" id="cart-overlay" onclick="if(event.target===this)closeCart()">
+    <div class="cart-sidebar">
+      <div class="cart-header">
+        <h3>Your Cart</h3>
+        <button class="close-cart" onclick="closeCart()">×</button>
+      </div>
+      <div class="cart-items" id="cart-items"></div>
+      <div class="cart-footer" id="cart-footer" style="display:none;">
+        <div class="cart-total">
+          <span>Total</span>
+          <span id="cart-total-amount">₦0</span>
+        </div>
+        <button class="checkout-btn" onclick="openCheckout()">Proceed to Checkout</button>
+      </div>
+    </div>
+  </div>
 
-## How to Run
+  <!-- Checkout Modal -->
+  <div class="modal-overlay" id="checkout-modal" onclick="if(event.target===this)closeCheckout()">
+    <div class="modal">
+      <h2>Checkout</h2>
+      <p class="subtitle">Fill your details. Then transfer to the account below.</p>
 
-1. Unzip the folder
-2. Open `index.html` in Chrome / Firefox / Edge  
-   **or** run a local server:
-   ```bash
-   npx serve .
-   ```
+      <form id="checkout-form" onsubmit="placeOrder(event)">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" id="cust-name" required placeholder="Your full name">
+        </div>
+        <div class="form-group">
+          <label>Phone Number *</label>
+          <input type="tel" id="cust-phone" required placeholder="0904 xxx xxxx">
+        </div>
 
-## CEO Dashboard
+        <div class="form-group">
+          <label>Delivery Option *</label>
+          <div style="display:flex;gap:12px;margin-top:6px;">
+            <label style="display:flex;align-items:center;gap:6px;font-weight:500;cursor:pointer;">
+              <input type="radio" name="delivery" value="pickup" checked onchange="updateCheckoutTotal()"> Pickup (Free)
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;font-weight:500;cursor:pointer;">
+              <input type="radio" name="delivery" value="delivery" onchange="updateCheckoutTotal()"> Delivery (+₦2,000)
+            </label>
+          </div>
+        </div>
 
-- Open `dashboard.html` or click **CEO** in the menu
-- Password: `collins2026`
-- Change password in `js/dashboard.js` → `DASH_PASSWORD`
+        <div class="form-group" id="address-group">
+          <label>Delivery Address *</label>
+          <textarea id="cust-address" required placeholder="Street, area, city..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Note (optional)</label>
+          <input type="text" id="cust-note" placeholder="Size, colour preference, etc.">
+        </div>
 
-## Connect Supabase (recommended for multi-device)
+        <div class="payment-box">
+          <h4>💳 Bank Transfer (PiggyVest)</h4>
+          <div class="payment-row"><span>Account Name</span> <strong>Ajigo Collins Ojenya</strong></div>
+          <div class="payment-row"><span>Account Number</span> <strong>9043728140</strong></div>
+          <div class="payment-row"><span>Bank</span> <strong>PiggyVest</strong></div>
+          <div class="payment-row" style="margin-top:8px;border-top:1px solid #e5e5e5;padding-top:8px;">
+            <span>Subtotal</span> <strong id="checkout-subtotal">₦0</strong>
+          </div>
+          <div class="payment-row">
+            <span>Delivery</span> <strong id="checkout-delivery">₦0</strong>
+          </div>
+          <div class="payment-row" style="margin-top:6px;border-top:1px solid #e5e5e5;padding-top:8px;font-size:1.05rem;">
+            <span>Total to Pay</span> <strong id="checkout-total" style="color:#e11d48;">₦0</strong>
+          </div>
+        </div>
 
-So that stock & orders sync across phones/computers:
+        <p style="font-size:0.85rem;color:#666;margin-bottom:12px;">
+          After clicking Place Order, WhatsApp will open automatically with your order details. Send payment proof there.
+        </p>
 
-1. Go to [supabase.com](https://supabase.com) → Create free account → New project
-2. Open **SQL Editor** and run this:
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" onclick="closeCheckout()">Cancel</button>
+          <button type="submit" class="btn-primary">Place Order & Open WhatsApp</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
-```sql
--- Products table
-create table products (
-  id bigint primary key,
-  name text,
-  brand text,
-  price integer,
-  image text,
-  available boolean default true
-);
+  <!-- WhatsApp Float -->
+  <a href="https://wa.me/2349047101249" class="whatsapp-float" target="_blank" title="Chat on WhatsApp">💬</a>
 
--- Orders table
-create table orders (
-  id bigint primary key,
-  created_at timestamptz default now(),
-  customer_name text,
-  customer_phone text,
-  customer_address text,
-  customer_note text,
-  items jsonb,
-  total integer,
-  status text default 'pending'
-);
-
--- Allow public read/write for simplicity (you can tighten later)
-alter table products enable row level security;
-alter table orders enable row level security;
-
-create policy "Public products" on products for all using (true) with check (true);
-create policy "Public orders" on orders for all using (true) with check (true);
-```
-
-3. Go to **Project Settings → API**
-4. Copy **Project URL** and **anon public** key
-5. Paste them into `js/supabase-config.js`
-6. Tell me when you have the keys and I will finish the live sync code for you.
-
-Until you add the keys, the website still works perfectly using the browser’s local storage.
-
-## File Structure
-
-```
-collins-clothing/
-├── index.html              # Main shop
-├── dashboard.html          # CEO panel
-├── css/styles.css
-├── js/
-│   ├── products.js         # Products, cart, checkout
-│   ├── dashboard.js        # Admin logic
-│   └── supabase-config.js  # Paste your Supabase keys here
-├── images/                 # All product photos
-└── README.md
-```
-
-Enjoy your store!  
-Collins Clothing 🔥
-```
+  <script src="products.js"></script>
+  <script>
+    function setFilter(filter, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderProducts(filter);
+    }
+  </script>
+</body>
+</html>
